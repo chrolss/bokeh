@@ -39,7 +39,11 @@ export class DatePickerView extends InputWidgetView {
     super.connect_signals()
 
     const {value, min_date, max_date, disabled_dates, enabled_dates, position, inline} = this.model.properties
-    this.connect(value.change, () => this._set("defaultDate", value.value()))
+    this.connect(value.change, () => {
+      if (this._picker != null) {
+        this._picker.setDate(value.value())
+      }
+    })
     this.connect(min_date.change, () => this._set("minDate", min_date.value()))
     this.connect(max_date.change, () => this._set("maxDate", max_date.value()))
     this.connect(disabled_dates.change, () => this._set("disable", disabled_dates.value()))
